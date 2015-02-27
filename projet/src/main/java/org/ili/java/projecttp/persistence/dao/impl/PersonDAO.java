@@ -1,6 +1,7 @@
 package org.ili.java.projecttp.persistence.dao.impl;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,9 +35,10 @@ public class PersonDAO implements IDAO<PersonDo> {
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(propagation = Propagation.MANDATORY)
 	public void create(final PersonDo object) {
-		entityManager.persist(object);
+	 
+	    entityManager.persist(object);
 	}
 
 	@Override
@@ -45,27 +48,33 @@ public class PersonDAO implements IDAO<PersonDo> {
 		return (PersonDo) entityManager.find(PersonDo.class, id);
 	}
 
-	@Override
-	public PersonDo[] findAll() {
-		
-		return null;
+	
+    @Override
+	@Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
+	public List<PersonDo> findAll() {
+      
+		return (List<PersonDo>) entityManager.createQuery("SELECT * FROM person").getResultList();
 	}
 	
 	@Override
+	@Transactional
 	public void update(final PersonDo object) {
-		
-		
-	}
-
-	@Override
-	public void delete(final Integer id) {
-		
+		entityManager.merge(object);
 		
 	}
 
 	@Override
+	@Transactional
+	public void delete(final PersonDo object) {
+		entityManager.remove(object);
+		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public boolean exist(final PersonDo object) {
 	
-		return false;
+		return entityManager.contains(object);
 	}
 }

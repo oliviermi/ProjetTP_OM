@@ -18,28 +18,28 @@
 	<import resource="hibernate-context.xml" />
 
 	<!-- set annotation to ON -->
-	<bean
-		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+	<tx:annotation-driven/>
 
 	<!-- Package to scan -->
 	<!-- <context:component-scan base-package=""/> -->
-	<context:component-scan base-package="org.ili.java.projecttp.dao" />
+	<context:component-scan base-package="org.ili.java.projecttp.dao.impl" />
 	<context:component-scan base-package="org.ili.java.projecttp.service" />
 	<context:component-scan base-package="org.ili.java.projecttp.controllers" />
 
-	<!-- <tx:annotation-driven transaction-manager="txManager" />
+	
 
-	<bean id="txManager"
+	<!-- <bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="myDataSourceForProject" />
 	</bean> -->
-	<!-- <context:property-placeholder location="classpath:database.properties" 
-		/> -->
-	<!-- <bean id="myConnectionBean" class="org.ili.java.projecttp.utils.bean.ConnectionBean"> -->
-	<!-- <property name="driverValue" value="${database.driver}"></property> -->
-	<!-- <property name="urlValue" value="${database.url}"></property> -->
-	<!-- <property name="userValue" value="${database.user}"></property> -->
-	<!-- <property name="passwordValue" value="${database.password}"></property> -->
-	<!-- </bean> -->
+<!-- 	<context:property-placeholder location="classpath:database.properties" /> -->
+<!-- 	<bean id="myConnectionBean" class="org.ili.java.projecttp.utils.bean.ConnectionBean"> -->
+<!-- 		<property name="driverValue" value="${database.driver}"></property> -->
+<!-- 		<property name="urlValue" value="${database.url}"></property> -->
+<!-- 		<property name="userValue" value="${database.user}"></property> -->
+<!-- 		<property name="passwordValue" value="${database.password}"></property> -->
+<!-- 	</bean> -->
 
 </beans>

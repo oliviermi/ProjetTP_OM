@@ -1,4 +1,4 @@
-package projet;
+package projet.logger;
 
 
 import junit.framework.Assert;

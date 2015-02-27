@@ -1,5 +1,7 @@
 package org.ili.java.projecttp.persistence.dao;
 
+import java.util.List;
+
 public interface IDAO<T> {
 
 	void create(final T object);
@@ -8,11 +10,11 @@ public interface IDAO<T> {
 
 	void update(final T object);
 
-	void delete(final Integer id);
+	void delete(final T object);
 
 	boolean exist(final T object);
 
 	Integer countAll();
 
-	T[] findAll();
+	List<T> findAll();
 }

@@ -1,6 +1,6 @@
 package org.ili.java.projecttp.front.controllers;
 
-import org.ili.java.projecttp.persistence.dao.IDAO;
+import org.ili.java.projecttp.persistence.dao.impl.PersonDAO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class RESTController {
 	private Logger logger;
 
 	@Autowired
-	private IDAO<PersonDo> personDAO;
+	private PersonDAO personDAO;
 	
 	@RequestMapping(value = "/{name}", method = RequestMethod.GET)
 	public String get(@PathVariable final String name, final ModelMap model) {
@@ -30,14 +30,27 @@ public class RESTController {
 
 		logger.info("nb person " + personDAO.countAll().toString());
 		
-		//personDAO.create(new PersonDo("michel", "legrand"));
-	
 		final PersonDo p = personDAO.find(1);
 		
 		logger.info("nb person " + personDAO.countAll().toString());
 		
 		logger.info("p = " + p.toString());
 		
+		//PersonDo p2 = new PersonDo("michel", "legrand");
+		
+		//personDAO.create(p2);
+	    
+		//logger.info("p2 = " + p2.toString());
+		
+		p.setNom("un autre nom");
+		
+		personDAO.update(p);
+		
+		final PersonDo p2 = personDAO.find(1);
+		
+		logger.info("p2 = " + p2.toString());
+		    
+		logger.info("nb person " + personDAO.countAll().toString());
 		model.addAttribute("action", p.toString());
 		return "result";
 	}
