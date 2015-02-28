@@ -35,9 +35,13 @@
 		</property>
 	</bean>
 
-	<bean id="entityManagerFactory" parent="myEntityManagerFactoryAbstract">
+	<bean id="myEntityManagerFactory" parent="myEntityManagerFactoryAbstract">
 		<property name="persistenceUnitName" value="mypu" />
 		<property name="dataSource" ref="myDataSourceForProject" />
 	</bean>
+	
+	
+	
+	
 </beans>
 

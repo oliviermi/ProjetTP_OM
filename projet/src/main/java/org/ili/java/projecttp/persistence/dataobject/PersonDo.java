@@ -1,10 +1,9 @@
 package org.ili.java.projecttp.persistence.dataobject;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +12,7 @@ import javax.persistence.Table;
 public class PersonDo {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer idperson;
 	
 	@Column(name = "nomperson")
@@ -22,8 +21,8 @@ public class PersonDo {
 	@Column(name = "prenomperson")
 	private String prenom;
 	
-	@Column(name = "birthdateperson")
-	private Date birthDate;
+	//@Column(name = "birthdateperson")
+	//private Date birthDate;
 	
 	public PersonDo() {
 		
@@ -34,7 +33,9 @@ public class PersonDo {
 		this.prenom = prenom;
 	}
 
-	/**
+	
+
+  /**
 	 * @return the idperson
 	 */
 	public Integer getIdperson() {
@@ -76,19 +77,19 @@ public class PersonDo {
 		this.prenom = prenom;
 	}
 
-	/**
-	 * @return the birthDate
-	 */
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	/**
-	 * @param birthDate the birthDate to set
-	 */
-	public void setBirthDate(final Date birthDate) {
-		this.birthDate = birthDate;
-	}
+//	/**
+//	 * @return the birthDate
+//	 */
+//	public Date getBirthDate() {
+//		return birthDate;
+//	}
+//
+//	/**
+//	 * @param birthDate the birthDate to set
+//	 */
+//	public void setBirthDate(final Date birthDate) {
+//		this.birthDate = birthDate;
+//	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -103,7 +104,7 @@ public class PersonDo {
 		builder.append(", prenom=");
 		builder.append(prenom);
 		builder.append(", birthDate=");
-		builder.append(birthDate);
+		//builder.append(birthDate);
 		builder.append("]");
 		return builder.toString();
 	}

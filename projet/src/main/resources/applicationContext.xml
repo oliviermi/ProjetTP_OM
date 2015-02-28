@@ -14,32 +14,55 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- load hibernat conf -->
 	<import resource="hibernate-context.xml" />
+
+	<!--  HIBERNATE CONF START 
+	
+
+	datasource definition
+	<bean id="myDataSourceForProject" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${database.driver}"></property>
+		<property name="url" value="${database.url}"></property>
+		<property name="username" value="${database.user}"></property>
+		<property name="password" value="${database.password}"></property>
+	</bean>
+
+	entityManager
+	<bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+		<property name="dataSource" ref="myDataSourceForProject" />
+		<property name="persistenceUnitName" value="mypu" />
+		<property name="packagesToScan" value="org.ili.java.projecttp.persistence" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	HIBERNATE CONF END -->
+
 
 	<!-- set annotation to ON -->
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 
-	<tx:annotation-driven/>
+
 
 	<!-- Package to scan -->
-	<!-- <context:component-scan base-package=""/> -->
-	<context:component-scan base-package="org.ili.java.projecttp.dao.impl" />
-	<context:component-scan base-package="org.ili.java.projecttp.service" />
-	<context:component-scan base-package="org.ili.java.projecttp.controllers" />
-
 	
+	 <context:component-scan base-package="org.ili.java.projecttp.persistence.dao.impl" />
+	<context:component-scan base-package="org.ili.java.projecttp.business.service.impl" />
+	<context:component-scan base-package="org.ili.java.projecttp.front.controllers" />
 
-	<!-- <bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="myDataSourceForProject" />
-	</bean> -->
-<!-- 	<context:property-placeholder location="classpath:database.properties" /> -->
-<!-- 	<bean id="myConnectionBean" class="org.ili.java.projecttp.utils.bean.ConnectionBean"> -->
-<!-- 		<property name="driverValue" value="${database.driver}"></property> -->
-<!-- 		<property name="urlValue" value="${database.url}"></property> -->
-<!-- 		<property name="userValue" value="${database.user}"></property> -->
-<!-- 		<property name="passwordValue" value="${database.password}"></property> -->
-<!-- 	</bean> -->
+	<bean id="MyTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="myEntityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="MyTransactionManager"/>
 
 </beans>

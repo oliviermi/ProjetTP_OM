@@ -11,8 +11,6 @@ import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Olivier MICHALSKI
@@ -21,60 +19,51 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class PersonDAO implements IDAO<PersonDo> {
 
-	
-	@PersistenceContext(unitName = "mypu")
-	private EntityManager entityManager;
+  @PersistenceContext(unitName = "mypu")
+  private EntityManager entityManager;
 
-	@Loggable
-	private Logger logger;
-	
-	@Override
-	public Integer countAll() {
-		
-		return ((BigInteger) (entityManager.createNativeQuery("SELECT count(*) FROM person").getSingleResult())).intValue();
-	}
-	
-	@Override
-	@Transactional(propagation = Propagation.MANDATORY)
-	public void create(final PersonDo object) {
-	 
-	    entityManager.persist(object);
-	}
+  @Loggable
+  private Logger        logger;
 
-	@Override
-	@Transactional(readOnly = true)
-	public PersonDo find(final Integer id) {
-		
-		return (PersonDo) entityManager.find(PersonDo.class, id);
-	}
+  @Override
+  public Integer countAll() {
 
-	
-    @Override
-	@Transactional(readOnly = true)
-    @SuppressWarnings("unchecked")
-	public List<PersonDo> findAll() {
-      
-		return (List<PersonDo>) entityManager.createQuery("SELECT * FROM person").getResultList();
-	}
-	
-	@Override
-	@Transactional
-	public void update(final PersonDo object) {
-		entityManager.merge(object);
-		
-	}
+    return ((BigInteger) (entityManager.createNativeQuery("SELECT count(*) FROM person").getSingleResult())).intValue();
+  }
 
-	@Override
-	@Transactional
-	public void delete(final PersonDo object) {
-		entityManager.remove(object);
-		
-	}
+  @Override
+  public void create(final PersonDo object) {
 
-	@Override
-	@Transactional(readOnly = true)
-	public boolean exist(final PersonDo object) {
-	
-		return entityManager.contains(object);
-	}
+    logger.info("Starting persist");
+
+    entityManager.persist(object);
+    //entityManager.flush();
+    logger.info("Finished persist");
+  }
+
+  @Override
+  public PersonDo find(final Integer id) {
+    return (PersonDo) entityManager.find(PersonDo.class, id);
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<PersonDo> findAll() {
+    return (List<PersonDo>) entityManager.createQuery("SELECT * FROM person").getResultList();
+  }
+
+  @Override
+  public void update(final PersonDo object) {
+    entityManager.merge(object);
+  }
+
+  @Override
+  public void delete(final PersonDo object) {
+    entityManager.remove(object);
+  }
+
+  @Override
+  public boolean exist(final PersonDo object) {
+    return false;
+  }
 }
