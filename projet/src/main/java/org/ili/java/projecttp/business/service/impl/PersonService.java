@@ -3,20 +3,23 @@ package org.ili.java.projecttp.business.service.impl;
 import java.util.List;
 
 import org.ili.java.projecttp.business.service.IService;
-import org.ili.java.projecttp.persistence.dao.impl.PersonDAO;
+import org.ili.java.projecttp.persistence.dao.IDAO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Component("PersonService")
+@Transactional
 public class PersonService implements IService<PersonDo> {
 
   @Autowired
-  private PersonDAO personDAO;
+  @Qualifier("PersonDAO")
+  private IDAO<PersonDo> personDAO;
 
-  @Transactional(propagation = Propagation.MANDATORY)
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   @Override
   public void addPerson(final PersonDo p) {
     personDAO.create(p);

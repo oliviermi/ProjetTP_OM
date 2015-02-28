@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @author Olivier MICHALSKI
  *
  */
-@Repository
+@Repository("PersonDAO")
 public class PersonDAO implements IDAO<PersonDo> {
 
   @PersistenceContext(unitName = "mypu")
