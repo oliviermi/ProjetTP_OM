@@ -1,5 +1,6 @@
 package org.ili.java.projecttp.persistence.dao.impl;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class PersonDAO implements IDAO<PersonDo> {
 
   @Override
   public Integer countAll() {
-
     return ((BigInteger) (entityManager.createNativeQuery("SELECT count(*) FROM person").getSingleResult())).intValue();
   }
 
@@ -37,7 +37,7 @@ public class PersonDAO implements IDAO<PersonDo> {
     logger.info("Starting persist");
 
     entityManager.persist(object);
-    //entityManager.flush();
+
     logger.info("Finished persist");
   }
 

@@ -29,30 +29,25 @@ public class RESTController {
     final PersonDo p2 = new PersonDo("michel", "legrand");
 
     personService.addPerson(p2);
-
-
     
     model.addAttribute("action", "nb person " + personService.countAllPerson());
     return "result";
   }
 
   @RequestMapping(value = "/{name}", method = RequestMethod.POST)
-  public String post(@PathVariable
-  final String name, final ModelMap model) {
+  public String post(@PathVariable final String name, final ModelMap model) {
     model.addAttribute("action", "post");
     return "result";
   }
 
   @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
-  public String put(@PathVariable
-  final String name, final ModelMap model) {
+  public String put(@PathVariable final String name, final ModelMap model) {
     model.addAttribute("action", "put");
     return "result";
   }
 
   @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
-  public String delete(@PathVariable
-  final String name, final ModelMap model) {
+  public String delete(@PathVariable final String name, final ModelMap model) {
     model.addAttribute("action", "delete");
     return "result";
   }
