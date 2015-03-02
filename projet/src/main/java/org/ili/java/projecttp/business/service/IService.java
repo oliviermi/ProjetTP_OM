@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface IService<T> {
 
+  
   void addPerson(T object);
 
   Integer countAllPerson();

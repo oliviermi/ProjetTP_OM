@@ -1,6 +1,5 @@
 package org.ili.java.projecttp.persistence.dao.impl;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import org.ili.java.projecttp.persistence.dao.IDAO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -38,7 +38,7 @@ public class PersonDAO implements IDAO<PersonDo> {
 
     entityManager.persist(object);
 
-    logger.info("Finished persist");
+   logger.info("Finished persist");
   }
 
   @Override

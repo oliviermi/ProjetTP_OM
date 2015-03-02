@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 
 
-@Entity()
+@Entity
 @Table(name = "person")
 public class PersonDo implements Serializable {
 

@@ -55,6 +55,7 @@ public class PersonDaoTest {
 
   /**
    * Test method for {@link org.ili.java.projecttp.persistence.dao.impl.PersonDAO#create(org.ili.java.projecttp.persistence.dataobject.PersonDo)}.
+   * @throws Exception 
    */
   @Test
   public void testCreate() {

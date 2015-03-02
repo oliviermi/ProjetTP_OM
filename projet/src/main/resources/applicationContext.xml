@@ -15,59 +15,44 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- set annotation to ON -->
-	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-
 	<context:annotation-config />
 	<mvc:annotation-driven />
-
-
+	
 	<context:component-scan base-package="org.ili.java.projecttp.persistence"/>
-	<context:component-scan base-package="org.ili.java.projecttp.business" />
-	<context:component-scan base-package="org.ili.java.projecttp.front" />
+	<context:component-scan base-package="org.ili.java.projecttp.business"/>
+	<context:component-scan base-package="org.ili.java.projecttp.front"/> 
+	<context:component-scan base-package="org.ili.java.projecttp.utils.logger"/>
+	
+	<import resource="classpath:dataSource.xml"/>
 	
 	<!-- CONFIGURING CONTAINER-MANAGED JPA -->
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
 		<property name="persistenceUnitName" value="mypu" />
-		<property name="dataSource" ref="myDataSourceForProject" /> 
+		<property name="dataSource" ref="myDataSourceForProject" />
 		<property name="jpaVendorAdapter" ref="myJpaVendorAdapter" /> <!-- OK -->
-	<!-- 	<property name="jpaDialect" ref="myJpaDialect" /> OK -->
-		<!-- <property name="jtaDataSource" ref="myDataSourceForProject" /> -->
 	</bean>
-
-	<bean id="myJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	
+	<bean id="myJpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 		<property name="database" value="MYSQL" />
 		<property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 		<property name="showSql" value="true" />
 		<property name="generateDdl" value="false" />
 	</bean>
-
-	<!-- <bean id="myJpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" /> -->
-
+	
 	<bean id="myTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
 	<tx:annotation-driven transaction-manager="myTransactionManager" />
 	
-
-	<context:property-placeholder location="classpath:database.properties" />
-
-	<bean id="myDataSourceForProject" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${database.driver}"></property>
-		<property name="url" value="${database.url}"></property>
-		<property name="username" value="${database.user}"></property>
-		<property name="password" value="${database.password}"></property>
-	</bean>
 	
-	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-
 	
-
 	
-
 	
-
+	<!-- set annotation to ON -->
+	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" /> -->
 
 </beans>

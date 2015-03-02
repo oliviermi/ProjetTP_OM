@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/test")
+@RequestMapping("/restCRUD")
 public class RESTController {
 
   @Loggable
@@ -23,14 +23,14 @@ public class RESTController {
   @Qualifier("PersonService")
   private IService<PersonDo> personService;
 
-  @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-  public String get(@PathVariable final String name, final ModelMap model) {
+  @RequestMapping(value = "/{name}/{name2}", method = RequestMethod.GET)
+  public String get(@PathVariable final String name, @PathVariable final String name2, final ModelMap model) {
 
-    final PersonDo p2 = new PersonDo("michel", "legrand");
+    final PersonDo p2 = new PersonDo(name, name2);
 
     personService.addPerson(p2);
     
-    model.addAttribute("action", "nb person " + personService.countAllPerson());
+    model.addAttribute("action", "nb person " + personService.countAllPerson()+ " " + p2.toString());
     return "result";
   }
 

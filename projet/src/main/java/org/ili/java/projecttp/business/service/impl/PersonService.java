@@ -25,7 +25,7 @@ public class PersonService implements IService<PersonDo> {
     personDAO.create(p);
   }
 
-  @Transactional
+  @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
   @Override
   public void modifiyPerson(final PersonDo p) {
     personDAO.update(p);

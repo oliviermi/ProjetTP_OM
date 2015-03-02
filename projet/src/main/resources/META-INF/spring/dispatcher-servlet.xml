@@ -5,16 +5,18 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
-	<context:component-scan base-package="org.ili.java.projecttp" />
-<!-- 	<context:component-scan base-package="org.ili.java2.tp.validator" /> -->
-
+	<context:annotation-config />
+	<context:component-scan base-package="org.ili.java.projecttp.front" />
+	
+	<!-- <context:component-scan base-package="org.ili.java2.tp.validator" /> -->
 	<mvc:annotation-driven />
 
-	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	
+
 
 </beans>
