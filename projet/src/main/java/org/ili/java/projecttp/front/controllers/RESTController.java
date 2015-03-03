@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * @author Olivier MICHALSKI
+ *
+ */
 @Controller
 @RequestMapping("/restCRUD")
 public class RESTController {
@@ -23,29 +27,50 @@ public class RESTController {
   @Qualifier("PersonService")
   private IService<PersonDo> personService;
 
-  @RequestMapping(value = "/{name}/{name2}", method = RequestMethod.GET)
-  public String get(@PathVariable final String name, @PathVariable final String name2, final ModelMap model) {
+  /**
+   * @param name
+   * @param name2
+   * @param model
+   * @return
+   */
+  @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+  public String get(@PathVariable final String name, final ModelMap model) {
 
-    final PersonDo p2 = new PersonDo(name, name2);
-
-    personService.addPerson(p2);
     
-    model.addAttribute("action", "nb person " + personService.countAllPerson()+ " " + p2.toString());
+    
+    model.addAttribute("action", "get");
     return "result";
   }
 
+  /**
+   * @param name
+   * @param model
+   * @return
+   */
   @RequestMapping(value = "/{name}", method = RequestMethod.POST)
   public String post(@PathVariable final String name, final ModelMap model) {
+    
+    //submit
     model.addAttribute("action", "post");
     return "result";
   }
 
+  /**
+   * @param name
+   * @param model
+   * @return
+   */
   @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
   public String put(@PathVariable final String name, final ModelMap model) {
     model.addAttribute("action", "put");
     return "result";
   }
 
+  /**
+   * @param name
+   * @param model
+   * @return
+   */
   @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
   public String delete(@PathVariable final String name, final ModelMap model) {
     model.addAttribute("action", "delete");

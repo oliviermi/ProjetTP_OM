@@ -2,6 +2,7 @@ package org.ili.java.projecttp.persistence.dao;
 
 import java.util.List;
 
+
 public interface IDAO<T> {
 
 	void create(final T object);

@@ -10,7 +10,6 @@ import org.ili.java.projecttp.persistence.dao.IDAO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -38,7 +37,7 @@ public class PersonDAO implements IDAO<PersonDo> {
 
     entityManager.persist(object);
 
-   logger.info("Finished persist");
+    logger.info("Finished persist");
   }
 
   @Override
@@ -64,6 +63,6 @@ public class PersonDAO implements IDAO<PersonDo> {
 
   @Override
   public boolean exist(final PersonDo object) {
-    return false;
+    return (entityManager.find(PersonDo.class, object.getIdperson(), object.propertiesToMap()) != null);
   }
 }

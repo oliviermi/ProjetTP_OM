@@ -50,4 +50,9 @@ public class PersonService implements IService<PersonDo> {
     return personDAO.findAll();
   }
 
+  @Override
+  public boolean existPerson(final PersonDo object) {
+    return personDAO.exist(object);
+  }
+
 }

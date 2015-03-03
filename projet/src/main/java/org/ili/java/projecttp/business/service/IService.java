@@ -5,6 +5,7 @@ package org.ili.java.projecttp.business.service;
 
 import java.util.List;
 
+
 /**
  * @author Olivier MICHALSKI
  *
@@ -22,4 +23,5 @@ public interface IService<T> {
 
   List<T> fetchAllPersons();
 
+  boolean existPerson(T object);
 }
