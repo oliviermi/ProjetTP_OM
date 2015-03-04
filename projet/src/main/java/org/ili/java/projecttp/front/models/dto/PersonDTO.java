@@ -9,6 +9,9 @@ import java.util.Date;
 public class PersonDTO {
 
   //textbox
+  private Integer id;
+  
+  //textbox
   private String nomPerson;
 
   //textbox
@@ -57,5 +60,19 @@ public class PersonDTO {
    */
   public void setBirthDatePerson(final Date birthDatePerson) {
     this.birthDatePerson = birthDatePerson;
+  }
+
+  /**
+   * @return the id
+   */
+  public Integer getId() {
+    return id;
+  }
+
+  /**
+   * @param id the id to set
+   */
+  public void setId(Integer id) {
+    this.id = id;
   }
 }

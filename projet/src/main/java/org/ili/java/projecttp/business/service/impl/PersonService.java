@@ -22,24 +22,28 @@ public class PersonService implements IService<PersonDo> {
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
   @Override
   public void addPerson(final PersonDo p) {
+    
     personDAO.create(p);
   }
 
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
   @Override
   public void modifiyPerson(final PersonDo p) {
+    
     personDAO.update(p);
   }
 
   @Transactional(readOnly = true)
   @Override
   public Integer countAllPerson() {
+    
     return personDAO.countAll();
   }
 
   @Transactional(readOnly = true)
   @Override
   public PersonDo fetchPerson(final Integer id) {
+    
     return personDAO.find(id);
   }
 
@@ -52,7 +56,14 @@ public class PersonService implements IService<PersonDo> {
 
   @Override
   public boolean existPerson(final PersonDo object) {
+    
     return personDAO.exist(object);
+  }
+
+  @Override
+  public void removePerson(final PersonDo object) {
+    
+    personDAO.delete(object);
   }
 
 }

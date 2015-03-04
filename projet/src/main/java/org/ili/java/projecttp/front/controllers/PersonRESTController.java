@@ -1,6 +1,7 @@
 package org.ili.java.projecttp.front.controllers;
 
 import org.ili.java.projecttp.business.service.IService;
+import org.ili.java.projecttp.front.models.mapper.PersonMapper;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
 import org.slf4j.Logger;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  */
 @Controller
-@RequestMapping("/restCRUD")
-public class RESTController {
+@RequestMapping("/PersonRESTCRUD")
+public class PersonRESTController {
 
   @Loggable
   private Logger             logger;
@@ -33,12 +34,14 @@ public class RESTController {
    * @param model
    * @return
    */
-  @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-  public String get(@PathVariable final String name, final ModelMap model) {
-
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  public String get(@PathVariable final String id, final ModelMap model) {
     
+    //select
+    final PersonDo person = personService.fetchPerson(Integer.parseInt(id));
     
-    model.addAttribute("action", "get");
+    model.addAttribute("person", PersonMapper.getPersonDtoFromDo(person));
+    model.addAttribute("action", "find");
     return "result";
   }
 
@@ -50,8 +53,9 @@ public class RESTController {
   @RequestMapping(value = "/{name}", method = RequestMethod.POST)
   public String post(@PathVariable final String name, final ModelMap model) {
     
-    //submit
-    model.addAttribute("action", "post");
+    //submit insert
+    model.addAttribute("person", "post");
+    model.addAttribute("action", "insert");
     return "result";
   }
 
@@ -62,7 +66,10 @@ public class RESTController {
    */
   @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
   public String put(@PathVariable final String name, final ModelMap model) {
-    model.addAttribute("action", "put");
+    
+    //update
+    model.addAttribute("person", "put");
+    model.addAttribute("action", "update");
     return "result";
   }
 
@@ -73,6 +80,10 @@ public class RESTController {
    */
   @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
   public String delete(@PathVariable final String name, final ModelMap model) {
+   
+    //delete
+    
+    model.addAttribute("person", "delete");
     model.addAttribute("action", "delete");
     return "result";
   }

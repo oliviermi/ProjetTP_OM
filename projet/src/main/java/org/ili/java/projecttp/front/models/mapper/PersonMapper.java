@@ -5,10 +5,11 @@ import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 
 public class PersonMapper {
 
-  public PersonDo getPersonDoFromDto(final PersonDTO personDTO) {
+  public static PersonDo getPersonDoFromDto(final PersonDTO personDTO) {
     
     final PersonDo personDo = new PersonDo();
 
+    personDo.setIdperson(personDTO.getId());
     personDo.setNom(personDTO.getNomPerson());
     personDo.setPrenom(personDTO.getPrenomPerson());
     personDo.setBirthDate(personDTO.getBirthDatePerson());
@@ -16,10 +17,11 @@ public class PersonMapper {
     return personDo;
   }
 
-  public PersonDTO getPersonDtoFromDo(final PersonDo personDo) {
+  public static PersonDTO getPersonDtoFromDo(final PersonDo personDo) {
 
     final PersonDTO personDto = new PersonDTO();
-
+    
+    personDto.setId(personDo.getIdperson());
     personDto.setNomPerson(personDo.getNom());
     personDto.setPrenomPerson(personDo.getPrenom());
     personDto.setBirthDatePerson(personDo.getBirthDate());

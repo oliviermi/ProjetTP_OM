@@ -1,4 +1,4 @@
-package org.ili.java.projecttp.front.validators;
+package org.ili.java.projecttp.front.models.validators;
 
 import org.ili.java.projecttp.front.models.dto.PersonDTO;
 import org.springframework.stereotype.Component;

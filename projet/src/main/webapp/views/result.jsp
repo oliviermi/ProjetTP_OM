@@ -9,7 +9,9 @@
 <body>
 	<h1>Spring 3 MVC REST web service</h1>
 
-	<h2>Result name : ${action}</h2>
+	<h2>Result name : ${person.nomPerson}</h2>
 
+	<h2>Result name : ${person.prenomPerson}</h2>
+	<h2>Result name : ${person.birthDatePerson}</h2>
 </body>
 </html>

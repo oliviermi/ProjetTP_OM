@@ -24,4 +24,7 @@ public interface IService<T> {
   List<T> fetchAllPersons();
 
   boolean existPerson(T object);
+  
+  void removePerson(T object);
+  
 }
