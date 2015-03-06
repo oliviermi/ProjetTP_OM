@@ -60,6 +60,7 @@ public class PersonService implements IService<PersonDo> {
     return personDAO.exist(object);
   }
 
+  @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
   @Override
   public void removePerson(final PersonDo object) {
     

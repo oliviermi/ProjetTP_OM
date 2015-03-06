@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/PersonRESTCRUD")
 public class PersonRESTController {
 
-  @Loggable
-  private Logger             logger;
-
+  private static final String PERSONSTR = "person";
+  
   @Autowired
   @Qualifier("PersonService")
   private IService<PersonDo> personService;
@@ -40,7 +39,7 @@ public class PersonRESTController {
     //select
     final PersonDo person = personService.fetchPerson(Integer.parseInt(id));
     
-    model.addAttribute("person", PersonMapper.getPersonDtoFromDo(person));
+    model.addAttribute(PERSONSTR, PersonMapper.getPersonDtoFromDo(person));
     model.addAttribute("action", "find");
     return "result";
   }
@@ -54,8 +53,8 @@ public class PersonRESTController {
   public String post(@PathVariable final String name, final ModelMap model) {
     
     //submit insert
-    model.addAttribute("person", "post");
-    model.addAttribute("action", "insert");
+    model.addAttribute(PERSONSTR, "post");
+    model.addAttribute(PERSONSTR, "insert");
     return "result";
   }
 
@@ -68,7 +67,7 @@ public class PersonRESTController {
   public String put(@PathVariable final String name, final ModelMap model) {
     
     //update
-    model.addAttribute("person", "put");
+    model.addAttribute(PERSONSTR, "put");
     model.addAttribute("action", "update");
     return "result";
   }
@@ -83,7 +82,7 @@ public class PersonRESTController {
    
     //delete
     
-    model.addAttribute("person", "delete");
+    model.addAttribute(PERSONSTR, "delete");
     model.addAttribute("action", "delete");
     return "result";
   }

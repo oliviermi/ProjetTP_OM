@@ -1,4 +1,3 @@
-
 package org.ili.java.projecttp.utils.logger;
 
 import java.lang.annotation.Documented;
@@ -11,5 +10,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Documented
 public @interface Loggable {
-	//empty
+//empty
 }
