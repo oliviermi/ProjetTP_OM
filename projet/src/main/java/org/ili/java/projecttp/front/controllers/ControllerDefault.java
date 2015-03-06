@@ -50,6 +50,8 @@ public class ControllerDefault {
   @RequestMapping(value = "/persons", method = RequestMethod.GET)
   public ModelAndView listEmployees() {
     
+    System.out.println("IN persons");
+    
     final Map<String, Object> model = new HashMap<String, Object>();
     model.put("persons", prepareListofBean(personService.fetchAllPersons()));
     
@@ -63,6 +65,8 @@ public class ControllerDefault {
    */
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   public ModelAndView addPerson(@ModelAttribute("command") final PersonDTO personDTO, final BindingResult result) {
+    
+    System.out.println("IN ADD");
     
     final Map<String, Object> model = new HashMap<String, Object>();
     model.put("persons", prepareListofBean(personService.fetchAllPersons()));
