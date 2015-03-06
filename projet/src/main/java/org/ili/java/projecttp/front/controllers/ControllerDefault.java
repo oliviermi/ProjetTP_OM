@@ -10,6 +10,7 @@ import org.ili.java.projecttp.front.models.dto.PersonDTO;
 import org.ili.java.projecttp.front.models.mapper.PersonMapper;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +27,7 @@ public class ControllerDefault {
 
  
   @Autowired
+  @Qualifier("PersonService")
   private IService<PersonDo> personService;
 
   /**
@@ -71,6 +73,8 @@ public class ControllerDefault {
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public ModelAndView welcome() {
     
+    System.out.println("in index");
+    
     return new ModelAndView("index");
   }
 
@@ -115,6 +119,7 @@ public class ControllerDefault {
       personDtos = new ArrayList<PersonDTO>();
       
       for (PersonDo personDo : personDos) {
+        
         
         personDtos.add(PersonMapper.getPersonDtoFromDo(personDo));
       }

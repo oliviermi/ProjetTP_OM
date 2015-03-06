@@ -46,9 +46,15 @@ public class PersonDAO implements IDAO<PersonDo> {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public List<PersonDo> findAll() {
-    return (List<PersonDo>) entityManager.createQuery("SELECT * FROM person").getResultList();
+    final List<PersonDo> list = entityManager.createNamedQuery("Person.findAll", PersonDo.class).getResultList();
+    
+    for (PersonDo tmp : list) {
+     
+   logger.debug("value = " + tmp.toString());
+
+    }
+    return list;
   }
 
   @Override

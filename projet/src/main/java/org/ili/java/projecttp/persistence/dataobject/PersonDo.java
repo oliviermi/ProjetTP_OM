@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.springframework.util.ReflectionUtils;
@@ -17,6 +18,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 
 @Entity
 @Table(name = "person")
+@NamedQuery(name = "Person.findAll", query = "SELECT p FROM PersonDo p") 
 public class PersonDo implements Serializable {
 
   /**
