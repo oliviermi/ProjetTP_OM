@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.ili.java.projecttp.persistence.dao.IDAO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
@@ -23,7 +24,7 @@ public class PersonDAO implements IDAO<PersonDo> {
   private EntityManager entityManager;
 
   @Loggable
-  private Logger        logger;
+  private static Logger        logger;
 
   @Override
   public Integer countAll() {
@@ -42,19 +43,25 @@ public class PersonDAO implements IDAO<PersonDo> {
 
   @Override
   public PersonDo find(final Integer id) {
+    
+    logger.debug("********value for id =" + id);
+    
     return (PersonDo) entityManager.find(PersonDo.class, id);
   }
 
   @Override
   public List<PersonDo> findAll() {
-    final List<PersonDo> list = entityManager.createNamedQuery("Person.findAll", PersonDo.class).getResultList();
+    final TypedQuery<PersonDo> query = entityManager.createNamedQuery("Person.findAll", PersonDo.class);
     
-    for (PersonDo tmp : list) {
+    final List<PersonDo> list2 = query.getResultList();
+    
+    for (PersonDo tmp : list2) {
      
-   logger.debug("value = " + tmp.toString());
+      logger.debug("retrieved value = " + tmp.toString());
 
     }
-    return list;
+    
+    return query.getResultList();
   }
 
   @Override
@@ -64,11 +71,11 @@ public class PersonDAO implements IDAO<PersonDo> {
 
   @Override
   public void delete(final PersonDo object) {
-    entityManager.remove(object);
+    entityManager.remove(entityManager.find(PersonDo.class, object.getIdperson()));
   }
 
   @Override
   public boolean exist(final PersonDo object) {
-    return (entityManager.find(PersonDo.class, object.getIdperson(), object.propertiesToMap()) != null);
+    return entityManager.find(PersonDo.class, object.getIdperson(), object.propertiesToMap()) != null;
   }
 }

@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
@@ -30,17 +35,24 @@ public class PersonDo implements Serializable {
   @GeneratedValue
   private int               idperson;
 
+  @NotNull
   @Column(name = "nomperson")
   private String            nom;
 
+  @NotNull
   @Column(name = "prenomperson")
   private String            prenom;
 
+  @NotNull
+  @Past
+  @DateTimeFormat(pattern = "dd/MM/yyyy")
   @Column(name = "birthdateperson")
   private Date birthDate;
 
+  @ManyToMany
+  private List<PersonDo> listFriend;
+  
   public PersonDo() {
-
   }
 
   public PersonDo(final String nom, final String prenom) {
@@ -130,19 +142,31 @@ public class PersonDo implements Serializable {
     final PersonDo obj = this;
     ReflectionUtils.doWithFields(PersonDo.class, new FieldCallback() {
 
-      public void doWith(final Field field) throws IllegalArgumentException, IllegalAccessException {
+      public void doWith(final Field field) throws IllegalAccessException {
         // make the field accessible if defined private
         ReflectionUtils.makeAccessible(field);
 
         if (field.getAnnotation(Column.class) != null) {
-          System.out.println("name = " + field.getAnnotation(Column.class).name());
-          System.out.println("value = " + field.get(obj));
           propertiesMap.put(field.getAnnotation(Column.class).name(), field.get(obj));
         }
       }
     });
 
     return propertiesMap;
+  }
+
+  /**
+   * @return the listFriend
+   */
+  public List<PersonDo> getListFriend() {
+    return listFriend;
+  }
+
+  /**
+   * @param listFriend the listFriend to set
+   */
+  public void setListFriend(List<PersonDo> listFriend) {
+    this.listFriend = listFriend;
   }
 
 }

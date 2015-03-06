@@ -2,6 +2,10 @@ package org.ili.java.projecttp.front.models.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * @author Olivier MICHALSKI
  *
@@ -18,6 +22,8 @@ public class PersonDTO {
   private String prenomPerson;
 
   //textbox
+  @Past
+  @DateTimeFormat(pattern = "dd/MM/yyyy")
   private Date birthDatePerson;
 
   /**
@@ -72,7 +78,22 @@ public class PersonDTO {
   /**
    * @param id the id to set
    */
-  public void setId(Integer id) {
+  public void setId(final Integer id) {
     this.id = id;
+  }
+
+  @Override
+  public String toString() {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("PersonDTO [id=");
+    builder.append(id);
+    builder.append(", nomPerson=");
+    builder.append(nomPerson);
+    builder.append(", prenomPerson=");
+    builder.append(prenomPerson);
+    builder.append(", birthDatePerson=");
+    builder.append(birthDatePerson);
+    builder.append("]");
+    return builder.toString();
   }
 }
