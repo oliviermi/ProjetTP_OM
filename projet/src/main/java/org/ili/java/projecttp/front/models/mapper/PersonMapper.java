@@ -2,16 +2,10 @@ package org.ili.java.projecttp.front.models.mapper;
 
 import org.ili.java.projecttp.front.models.dto.PersonDTO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
-import org.ili.java.projecttp.utils.logger.Loggable;
-import org.slf4j.Logger;
 
 public final class PersonMapper {
 
-  @Loggable
-  private static Logger logger;
-  
   private PersonMapper() {
-
   }
 
   public static PersonDo getPersonDoFromDto(final PersonDTO personDTO) {
@@ -26,10 +20,6 @@ public final class PersonMapper {
     personDo.setPrenom(personDTO.getPrenomPerson());
     personDo.setBirthDate(personDTO.getBirthDatePerson());
 
-    logger.debug("in personmappper dto->do");
-    logger.debug(personDo.toString());
-    logger.debug(personDTO.toString());
-    
     return personDo;
   }
 
@@ -42,10 +32,6 @@ public final class PersonMapper {
     personDTO.setPrenomPerson(personDo.getPrenom());
     personDTO.setBirthDatePerson(personDo.getBirthDate());
 
-    System.out.println("in personmappper do->dto");
-    System.out.println(personDo.toString());
-    System.out.println(personDTO.toString());
-    
     return personDTO;
   }
 }
