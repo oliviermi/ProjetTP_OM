@@ -190,7 +190,7 @@ public class ControllerDefault {
   /**
    * @param errors the errors to set
    */
-  public void setErrors(Map<String, String> errors) {
+  public void setErrors(final Map<String, String> errors) {
     this.errors = errors;
   }
 
