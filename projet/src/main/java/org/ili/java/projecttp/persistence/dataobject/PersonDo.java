@@ -1,8 +1,5 @@
 package org.ili.java.projecttp.persistence.dataobject;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -10,8 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,6 +25,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
+/**
+ * @author Olivier MICHALSKI
+ *
+ */
 @Table(name = "person")
 @NamedQuery(name = "Person.findAll", query = "SELECT p FROM PersonDo p")
 @Entity
@@ -55,14 +58,17 @@ public class PersonDo implements Serializable {
   private Date              birthDate;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), 
-                               inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
+  @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
   private Set<PersonDo>     listFriend;
 
   public PersonDo() {
-    
+
   }
 
+  /**
+   * @param nom
+   * @param prenom
+   */
   public PersonDo(final String nom, final String prenom) {
     this.nom = nom;
     this.prenom = prenom;
@@ -146,8 +152,11 @@ public class PersonDo implements Serializable {
    * @return
    */
   public Map<String, Object> propertiesToMap() {
+
     final Map<String, Object> propertiesMap = new HashMap<String, Object>();
+
     final PersonDo obj = this;
+
     ReflectionUtils.doWithFields(PersonDo.class, new FieldCallback() {
 
       public void doWith(final Field field) throws IllegalAccessException {

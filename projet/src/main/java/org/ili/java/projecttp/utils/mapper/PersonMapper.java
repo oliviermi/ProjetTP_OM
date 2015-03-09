@@ -1,19 +1,28 @@
-package org.ili.java.projecttp.front.models.mapper;
+package org.ili.java.projecttp.utils.mapper;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.ili.java.projecttp.front.models.dto.PersonDTO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
-import org.ili.java.projecttp.utils.logger.Loggable;
-import org.slf4j.Logger;
 
+/**
+ * @author Olivier MICHALSKI
+ *
+ */
 public final class PersonMapper {
 
+  /**
+   * 
+   */
   private PersonMapper() {
-
+    //empty method
   }
 
+  /**
+   * @param personDTO
+   * @return
+   */
   public static PersonDo getPersonDoFromDto(final PersonDTO personDTO) {
 
     final PersonDo personDo = new PersonDo();
@@ -30,6 +39,10 @@ public final class PersonMapper {
     return personDo;
   }
 
+  /**
+   * @param personDo
+   * @return
+   */
   public static PersonDTO getPersonDtoFromDo(final PersonDo personDo) {
 
     final PersonDTO personDTO = new PersonDTO();
@@ -43,16 +56,20 @@ public final class PersonMapper {
     return personDTO;
   }
 
+  /**
+   * @param l
+   * @return
+   */
   private static Set<PersonDo> getPersonDtoListFromDoList(final Set<PersonDTO> l) {
 
-  Set<PersonDo> returnList = null;
-    
+    Set<PersonDo> returnList = null;
+
     if (l == null) {
       return returnList;
     }
 
     returnList = new HashSet<PersonDo>();
-    
+
     for (PersonDTO p : l) {
       returnList.add(getPersonDoFromDto(p));
     }
@@ -60,14 +77,18 @@ public final class PersonMapper {
     return returnList;
   }
 
+  /**
+   * @param l
+   * @return
+   */
   private static Set<PersonDTO> getPersonDoListFromDTOList(final Set<PersonDo> l) {
-    
+
     Set<PersonDTO> returnList = null;
-    
+
     if (l == null) {
       return returnList;
     }
-    
+
     returnList = new HashSet<PersonDTO>();
 
     for (PersonDo p : l) {
@@ -76,5 +97,4 @@ public final class PersonMapper {
 
     return returnList;
   }
-
 }

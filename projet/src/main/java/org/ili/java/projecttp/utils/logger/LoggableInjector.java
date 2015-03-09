@@ -10,9 +10,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
+/**
+ * @author Olivier MICHALSKI
+ *
+ */
 @Component
 public class LoggableInjector implements BeanPostProcessor {
 
+  /* (non-Javadoc)
+   * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization(java.lang.Object, java.lang.String)
+   */
   public Object postProcessBeforeInitialization(final Object bean, final String beanName) throws BeansException {
 
     ReflectionUtils.doWithFields(bean.getClass(), new FieldCallback() {
@@ -20,17 +27,19 @@ public class LoggableInjector implements BeanPostProcessor {
       public void doWith(final Field field) throws IllegalAccessException {
 
         // make the field accessible if defined private
-
         ReflectionUtils.makeAccessible(field);
         if (field.getAnnotation(Loggable.class) != null && field.getType().equals(Logger.class)) {
-          final Logger logger = LoggerFactory.getLogger(bean.getClass());
-          field.set(bean, logger);
+          final Logger myLogger = LoggerFactory.getLogger(bean.getClass());
+          field.set(bean, myLogger);
         }
       }
     });
     return bean;
   }
 
+  /* (non-Javadoc)
+   * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization(java.lang.Object, java.lang.String)
+   */
   public Object postProcessAfterInitialization(final Object bean, final String beanName) throws BeansException {
     return bean;
   }

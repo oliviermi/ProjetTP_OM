@@ -13,9 +13,9 @@ import javax.validation.ValidatorFactory;
 
 import org.ili.java.projecttp.business.service.IService;
 import org.ili.java.projecttp.front.models.dto.PersonDTO;
-import org.ili.java.projecttp.front.models.mapper.PersonMapper;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
 import org.ili.java.projecttp.utils.logger.Loggable;
+import org.ili.java.projecttp.utils.mapper.PersonMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,7 +41,7 @@ public class ControllerDefault {
   private IService<PersonDo>  personService;
 
   @Loggable
-  private Logger              logger;
+  private Logger              myLogger;
 
   private Map<String, String> errors    = new HashMap<String, String>();
 
@@ -51,9 +51,10 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public ModelAndView savePerson(@ModelAttribute("command") final PersonDTO personDTO) {
+  public ModelAndView savePerson(@ModelAttribute("command")
+  final PersonDTO personDTO) {
 
-    logger.debug("*****SAVE with personDTO = " + personDTO.toString());
+    myLogger.debug("*****SAVE with personDTO = " + personDTO.toString());
 
     final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     final Validator validator = factory.getValidator();
@@ -63,17 +64,17 @@ public class ControllerDefault {
 
       final Map<String, Object> model = new HashMap<String, Object>();
 
-     logger.debug("*****OMImpossible de valider les donnees du bean : nb errerur : " + constraintViolations.size());
+      myLogger.debug("*****OMImpossible de valider les donnees du bean : nb errerur : " + constraintViolations.size());
 
       for (ConstraintViolation<PersonDTO> contraintes : constraintViolations) {
-        logger.debug("*******" + contraintes.getRootBeanClass().getSimpleName() + "." + contraintes.getPropertyPath() + " " + contraintes.getMessage());
+        myLogger.debug("*******" + contraintes.getRootBeanClass().getSimpleName() + "." + contraintes.getPropertyPath() + " " + contraintes.getMessage());
         errors.put(contraintes.getPropertyPath().toString(), contraintes.getMessage());
       }
-      logger.debug("putting errors to add form");
+      myLogger.debug("putting errors to add form");
       model.put("errors", errors);
       model.put(PERSON, personDTO);
       model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
-      logger.debug("errors contains :" + errors.toString());
+      myLogger.debug("errors contains :" + errors.toString());
 
       final PersonDo personDo = prepareModel(personDTO);
       personService.modifiyPerson(personDo);
@@ -82,7 +83,7 @@ public class ControllerDefault {
 
     } else {
 
-      logger.debug("valider les donnees du bean ok");
+      myLogger.debug("valider les donnees du bean ok");
       final PersonDo personDo = prepareModel(personDTO);
       personService.modifiyPerson(personDo);
     }
@@ -107,9 +108,10 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/add", method = RequestMethod.GET)
-  public ModelAndView addPerson(@ModelAttribute("command") final PersonDTO personDTO) {
+  public ModelAndView addPerson(@ModelAttribute("command")
+  final PersonDTO personDTO) {
 
-    logger.debug("****ADD");
+    myLogger.debug("****ADD");
 
     final Map<String, Object> model = new HashMap<String, Object>();
     model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
@@ -117,6 +119,10 @@ public class ControllerDefault {
     return new ModelAndView(ADDPERSON, model);
   }
 
+  /**
+   * @param personDTO
+   * @return
+   */
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
   public ModelAndView editEmployee(@ModelAttribute("command")
   final PersonDTO personDTO) {
@@ -129,12 +135,19 @@ public class ControllerDefault {
     return new ModelAndView(ADDPERSON, model);
   }
 
+  /**
+   * @return
+   */
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public ModelAndView welcome() {
 
     return new ModelAndView("index");
   }
 
+  /**
+   * @param personDTO
+   * @return
+   */
   @RequestMapping(value = "/delete", method = RequestMethod.GET)
   public ModelAndView deletePerson(@ModelAttribute("command")
   final PersonDTO personDTO) {
@@ -152,6 +165,10 @@ public class ControllerDefault {
     return new ModelAndView(ADDPERSON, model);
   }
 
+  /**
+   * @param personDTO
+   * @return
+   */
   private PersonDo prepareModel(final PersonDTO personDTO) {
 
     final PersonDo personDo = PersonMapper.getPersonDoFromDto(personDTO);
@@ -161,6 +178,10 @@ public class ControllerDefault {
     return personDo;
   }
 
+  /**
+   * @param personDos
+   * @return
+   */
   private List<PersonDTO> prepareListofBean(final List<PersonDo> personDos) {
 
     List<PersonDTO> personDtos = null;
@@ -175,6 +196,10 @@ public class ControllerDefault {
     return personDtos;
   }
 
+  /**
+   * @param personDo
+   * @return
+   */
   private PersonDTO preparePersonDTO(final PersonDo personDo) {
 
     return PersonMapper.getPersonDtoFromDo(personDo);
@@ -193,5 +218,4 @@ public class ControllerDefault {
   public void setErrors(final Map<String, String> errors) {
     this.errors = errors;
   }
-
 }

@@ -24,56 +24,64 @@ public class PersonDAO implements IDAO<PersonDo> {
   private EntityManager entityManager;
 
   @Loggable
-  private static Logger        logger;
+  private static Logger myLogger;
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#countAll()
+   */
   @Override
   public Integer countAll() {
     return ((BigInteger) (entityManager.createNativeQuery("SELECT count(*) FROM person").getSingleResult())).intValue();
   }
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#create(java.lang.Object)
+   */
   @Override
   public void create(final PersonDo object) {
 
-    logger.info("Starting persist");
-
     entityManager.persist(object);
-
-    logger.info("Finished persist");
   }
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#find(java.lang.Integer)
+   */
   @Override
   public PersonDo find(final Integer id) {
-    
-    logger.debug("********value for id =" + id);
-    
+
     return (PersonDo) entityManager.find(PersonDo.class, id);
   }
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#findAll()
+   */
   @Override
   public List<PersonDo> findAll() {
-    final TypedQuery<PersonDo> query = entityManager.createNamedQuery("Person.findAll", PersonDo.class);
-    
-    final List<PersonDo> list2 = query.getResultList();
-    
-    for (PersonDo tmp : list2) {
-     
-      logger.debug("retrieved value = " + tmp.toString());
 
-    }
-    
-    return query.getResultList();
+    final TypedQuery<PersonDo> query = entityManager.createNamedQuery("Person.findAll", PersonDo.class);
+
+    return (List<PersonDo>) query.getResultList();
   }
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#update(java.lang.Object)
+   */
   @Override
   public void update(final PersonDo object) {
     entityManager.merge(object);
   }
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#delete(java.lang.Object)
+   */
   @Override
   public void delete(final PersonDo object) {
     entityManager.remove(entityManager.find(PersonDo.class, object.getIdperson()));
   }
 
+  /* (non-Javadoc)
+   * @see org.ili.java.projecttp.persistence.dao.IDAO#exist(java.lang.Object)
+   */
   @Override
   public boolean exist(final PersonDo object) {
     return entityManager.find(PersonDo.class, object.getIdperson(), object.propertiesToMap()) != null;

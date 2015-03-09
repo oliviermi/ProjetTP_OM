@@ -18,27 +18,27 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class PersonDTO {
 
   //textbox
-  private Integer id;
+  private Integer        id;
 
   //textbox
   @NotNull
   @NotEmpty
   @NotBlank
-  private String  nomPerson;
+  private String         nomPerson;
 
   //textbox
   @Past
   @DateTimeFormat(pattern = "dd/MM/yyyy")
-  private Date birthDatePerson;
-  
+  private Date           birthDatePerson;
+
   @NotNull
   @NotEmpty
   @NotBlank
-  private String  prenomPerson;
+  private String         prenomPerson;
 
   @Null
   private Set<PersonDTO> listFriend;
-  
+
   /**
    * @return the nomPerson
    */
@@ -95,6 +95,9 @@ public class PersonDTO {
     this.id = id;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
     final StringBuilder builder = new StringBuilder();
@@ -123,6 +126,5 @@ public class PersonDTO {
   public void setListFriend(final Set<PersonDTO> listFriend) {
     this.listFriend = listFriend;
   }
-
 
 }
