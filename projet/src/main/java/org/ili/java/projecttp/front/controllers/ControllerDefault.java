@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.ili.java.projecttp.business.service.IService;
 import org.ili.java.projecttp.front.models.dto.PersonDTO;
@@ -27,27 +33,60 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerDefault {
 
   private static final String ADDPERSON = "addPerson";
-  private static final String PERSONS = "persons";
-  private static final String PERSON = "person";
-  
+  private static final String PERSONS   = "persons";
+  private static final String PERSON    = "person";
+
   @Autowired
   @Qualifier("PersonService")
-  private IService<PersonDo> personService;
+  private IService<PersonDo>  personService;
 
   @Loggable
-  private Logger        logger;
-  
+  private Logger              logger;
+
+  private Map<String, String> errors    = new HashMap<String, String>();
+
   /**
    * @param personDTO
    * @param result
    * @return
    */
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public ModelAndView savePerson(@ModelAttribute("command") final PersonDTO personDTO) {
-    
-    final PersonDo personDo = prepareModel(personDTO);
-    personService.modifiyPerson(personDo);
-    
+  public ModelAndView savePerson(@ModelAttribute("command")
+  final PersonDTO personDTO) {
+
+    logger.debug("*****SAVE with personDTO = " + personDTO.toString());
+
+    final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    final Validator validator = factory.getValidator();
+    final Set<ConstraintViolation<PersonDTO>> constraintViolations = validator.validate(personDTO);
+
+    if (constraintViolations.size() > 0) {
+
+      final Map<String, Object> model = new HashMap<String, Object>();
+
+      System.out.println("*****OMImpossible de valider les donnees du bean : nb errerur : " + constraintViolations.size());
+
+      for (ConstraintViolation<PersonDTO> contraintes : constraintViolations) {
+        logger.debug("*******" + contraintes.getRootBeanClass().getSimpleName() + "." + contraintes.getPropertyPath() + " " + contraintes.getMessage());
+        errors.put(contraintes.getPropertyPath().toString(), contraintes.getMessage());
+      }
+      logger.debug("putting errors to add form");
+      model.put("errors", errors);
+      model.put(PERSON, personDTO);
+      model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
+      logger.debug("errors contains :" + errors.toString());
+
+      final PersonDo personDo = prepareModel(personDTO);
+      personService.modifiyPerson(personDo);
+
+      return new ModelAndView(ADDPERSON, model);
+
+    } else {
+
+      logger.debug("valider les donnees du bean ok");
+      final PersonDo personDo = prepareModel(personDTO);
+      personService.modifiyPerson(personDo);
+    }
     return new ModelAndView("redirect:/add.html");
   }
 
@@ -56,10 +95,10 @@ public class ControllerDefault {
    */
   @RequestMapping(value = "/persons", method = RequestMethod.GET)
   public ModelAndView listEmployees() {
-    
+
     final Map<String, Object> model = new HashMap<String, Object>();
     model.put("persons", prepareListofBean(personService.fetchAllPersons()));
-    
+
     return new ModelAndView("personsList", model);
   }
 
@@ -69,60 +108,68 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/add", method = RequestMethod.GET)
-  public ModelAndView addPerson(@ModelAttribute("command") final PersonDTO personDTO) {
-    
+  public ModelAndView addPerson(@ModelAttribute("command")
+  final PersonDTO personDTO) {
+
+    logger.debug("****ADD");
+
     final Map<String, Object> model = new HashMap<String, Object>();
     model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
-    
+
     return new ModelAndView(ADDPERSON, model);
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public ModelAndView editEmployee(@ModelAttribute("command") final PersonDTO personDTO) {
-    
+  public ModelAndView editEmployee(@ModelAttribute("command")
+  final PersonDTO personDTO) {
+
     final Map<String, Object> model = new HashMap<String, Object>();
-    
+
     model.put(PERSON, preparePersonDTO(personService.fetchPerson(personDTO.getId())));
     model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
-    
+
     return new ModelAndView(ADDPERSON, model);
   }
-  
+
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public ModelAndView welcome() {
-    
+
     return new ModelAndView("index");
   }
 
   @RequestMapping(value = "/delete", method = RequestMethod.GET)
-  public ModelAndView deletePerson(@ModelAttribute("command") final PersonDTO personDTO) {
-    
+  public ModelAndView deletePerson(@ModelAttribute("command")
+  final PersonDTO personDTO) {
+
     final Map<String, Object> model = new HashMap<String, Object>();
 
     personService.removePerson(prepareModel(personDTO));
-    
+
     model.put(PERSON, null);
     model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
-    
+
+    model.put(PERSON, null);
+    model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
+
     return new ModelAndView(ADDPERSON, model);
   }
 
   private PersonDo prepareModel(final PersonDTO personDTO) {
-    
+
     final PersonDo personDo = PersonMapper.getPersonDoFromDto(personDTO);
-    
+
     personDTO.setId(null);
-    
+
     return personDo;
   }
 
   private List<PersonDTO> prepareListofBean(final List<PersonDo> personDos) {
-    
+
     List<PersonDTO> personDtos = null;
-    
+
     if (personDos != null && !personDos.isEmpty()) {
       personDtos = new ArrayList<PersonDTO>();
-      
+
       for (PersonDo personDo : personDos) {
         personDtos.add(PersonMapper.getPersonDtoFromDo(personDo));
       }
@@ -131,7 +178,22 @@ public class ControllerDefault {
   }
 
   private PersonDTO preparePersonDTO(final PersonDo personDo) {
-    
+
     return PersonMapper.getPersonDtoFromDo(personDo);
   }
+
+  /**
+   * @return the errors
+   */
+  public Map<String, String> getErrors() {
+    return errors;
+  }
+
+  /**
+   * @param errors the errors to set
+   */
+  public void setErrors(Map<String, String> errors) {
+    this.errors = errors;
+  }
+
 }

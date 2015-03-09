@@ -7,7 +7,7 @@
     <title>Spring3MVC</title>  
   </head>  
   <body>  
-    <h2>Spring3MVC with Hibernate3 CRUD Example using Annotations</h2>  
+    <h2>Spring MVC with Hibernate CRUD Example with Annotations</h2>  
     <h2>1. <a href="persons.html">List of Persons</a></h2>  
     <h2>2. <a href="add.html">Add Person</a></h2>  
   </body>  

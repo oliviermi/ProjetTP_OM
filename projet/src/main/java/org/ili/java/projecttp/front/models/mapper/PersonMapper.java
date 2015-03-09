@@ -42,10 +42,6 @@ public final class PersonMapper {
     personDTO.setPrenomPerson(personDo.getPrenom());
     personDTO.setBirthDatePerson(personDo.getBirthDate());
 
-    System.out.println("in personmappper do->dto");
-    System.out.println(personDo.toString());
-    System.out.println(personDTO.toString());
-    
     return personDTO;
   }
 }

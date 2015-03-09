@@ -23,6 +23,10 @@ public class PersonRESTController {
 
   private static final String PERSONSTR = "person";
   
+  @Loggable
+  private Logger logger;
+  
+  
   @Autowired
   @Qualifier("PersonService")
   private IService<PersonDo> personService;

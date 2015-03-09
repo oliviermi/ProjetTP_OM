@@ -2,8 +2,11 @@ package org.ili.java.projecttp.front.models.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -14,17 +17,22 @@ public class PersonDTO {
 
   //textbox
   private Integer id;
-  
-  //textbox
-  private String nomPerson;
 
   //textbox
-  private String prenomPerson;
+  @NotNull
+  @NotEmpty
+  @NotBlank
+  private String  nomPerson;
 
   //textbox
   @Past
   @DateTimeFormat(pattern = "dd/MM/yyyy")
   private Date birthDatePerson;
+  
+  @NotNull
+  @NotEmpty
+  @NotBlank
+  private String  prenomPerson;
 
   /**
    * @return the nomPerson

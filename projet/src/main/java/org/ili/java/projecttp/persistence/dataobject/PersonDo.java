@@ -1,5 +1,8 @@
 package org.ili.java.projecttp.persistence.dataobject;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -11,8 +14,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -21,9 +26,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
-@Entity
 @Table(name = "person")
-@NamedQuery(name = "Person.findAll", query = "SELECT p FROM PersonDo p") 
+@NamedQuery(name = "Person.findAll", query = "SELECT p FROM PersonDo p")
+@Entity
 public class PersonDo implements Serializable {
 
   /**
@@ -47,10 +52,24 @@ public class PersonDo implements Serializable {
   @Past
   @DateTimeFormat(pattern = "dd/MM/yyyy")
   @Column(name = "birthdateperson")
-  private Date birthDate;
+  private Date              birthDate;
 
-  @ManyToMany
-  private List<PersonDo> listFriend;
+//  @ManyToMany(cascade = ALL)
+//  @JoinTable(name = "friends", 
+//            joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), 
+//            inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
+//  private List<PersonDo>    listFriend;
+
+  
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinTable(name = "friends", joinColumns = {@JoinColumn(name = "idperson1", 
+                                                          referencedColumnName = "idperson"),
+                                              @JoinColumn(name = "idperson2", 
+                                              referencedColumnName = "idperson")}, 
+                               inverseJoinColumns = {@JoinColumn(name = "idperson1", 
+                                                                 referencedColumnName = "idperson"),
+                                                     @JoinColumn(name = "idperson2", referencedColumnName = "idperson")})
+  private List<PersonDo>    listFriend;
   
   public PersonDo() {
   }
@@ -165,8 +184,24 @@ public class PersonDo implements Serializable {
   /**
    * @param listFriend the listFriend to set
    */
-  public void setListFriend(List<PersonDo> listFriend) {
+  public void setListFriend(final List<PersonDo> listFriend) {
     this.listFriend = listFriend;
   }
+
+
+  //  /**
+  //   * @return the listFriend
+  //   */
+  //  public List<PersonDo> getListFriend() {
+  //    return listFriend;
+  //  }
+  //
+  //  /**
+  //   * @param listFriend the listFriend to set
+  //   */
+  //  public void setListFriend(List<PersonDo> listFriend) {
+  //    this.listFriend = listFriend;
+  //  }
+
 
 }
