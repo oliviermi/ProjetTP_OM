@@ -1,8 +1,10 @@
 package org.ili.java.projecttp.front.models.dto;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -34,6 +36,9 @@ public class PersonDTO {
   @NotBlank
   private String  prenomPerson;
 
+  @Null
+  private Set<PersonDTO> listFriend;
+  
   /**
    * @return the nomPerson
    */
@@ -104,4 +109,20 @@ public class PersonDTO {
     builder.append("]");
     return builder.toString();
   }
+
+  /**
+   * @return the listFriend
+   */
+  public Set<PersonDTO> getListFriend() {
+    return listFriend;
+  }
+
+  /**
+   * @param listFriend the listFriend to set
+   */
+  public void setListFriend(final Set<PersonDTO> listFriend) {
+    this.listFriend = listFriend;
+  }
+
+
 }

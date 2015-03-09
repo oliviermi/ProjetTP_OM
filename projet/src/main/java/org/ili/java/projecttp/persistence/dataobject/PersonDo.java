@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -54,24 +54,13 @@ public class PersonDo implements Serializable {
   @Column(name = "birthdateperson")
   private Date              birthDate;
 
-//  @ManyToMany(cascade = ALL)
-//  @JoinTable(name = "friends", 
-//            joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), 
-//            inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
-//  private List<PersonDo>    listFriend;
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), 
+                               inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
+  private Set<PersonDo>     listFriend;
 
-  
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(name = "friends", joinColumns = {@JoinColumn(name = "idperson1", 
-                                                          referencedColumnName = "idperson"),
-                                              @JoinColumn(name = "idperson2", 
-                                              referencedColumnName = "idperson")}, 
-                               inverseJoinColumns = {@JoinColumn(name = "idperson1", 
-                                                                 referencedColumnName = "idperson"),
-                                                     @JoinColumn(name = "idperson2", referencedColumnName = "idperson")})
-  private List<PersonDo>    listFriend;
-  
   public PersonDo() {
+    
   }
 
   public PersonDo(final String nom, final String prenom) {
@@ -177,31 +166,15 @@ public class PersonDo implements Serializable {
   /**
    * @return the listFriend
    */
-  public List<PersonDo> getListFriend() {
+  public Set<PersonDo> getListFriend() {
     return listFriend;
   }
 
   /**
    * @param listFriend the listFriend to set
    */
-  public void setListFriend(final List<PersonDo> listFriend) {
+  public void setListFriend(final Set<PersonDo> listFriend) {
     this.listFriend = listFriend;
   }
-
-
-  //  /**
-  //   * @return the listFriend
-  //   */
-  //  public List<PersonDo> getListFriend() {
-  //    return listFriend;
-  //  }
-  //
-  //  /**
-  //   * @param listFriend the listFriend to set
-  //   */
-  //  public void setListFriend(List<PersonDo> listFriend) {
-  //    this.listFriend = listFriend;
-  //  }
-
 
 }

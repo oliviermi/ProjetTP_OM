@@ -42,6 +42,11 @@
 						value="${theFormattedDate}" /></td>
 				<td><span class="errors">${errors['birthDatePerson']}</span></td>
 			</tr>
+			<%-- <tr>
+				<td><form:label path="listFriend">listFriend:</form:label></td>
+				<td><form:input path="listFriend" value="${listFriend}" /></td>
+				<td><span class="errors">${errors['listFriend']}</span></td>
+			</tr> --%>
 			<tr>
 				<td colspan="3"><input type="submit" value="Submit" /></td>
 			</tr>
@@ -55,6 +60,7 @@
 				<th>Person ID</th>
 				<th>Person nom</th>
 				<th>Person prenom</th>
+				<!-- <th>Person Friends</th> -->
 				<th>Person birthdate</th>
 				<th>Actions on Row</th>
 			</tr>
@@ -68,6 +74,7 @@
 					<td><c:out value="${personn.id}" /></td>
 					<td><c:out value="${personn.nomPerson}" /></td>
 					<td><c:out value="${personn.prenomPerson}" /></td>
+					<%-- <td><c:out value="${personn.listFriend}" /></td> --%>
 					<td><c:out value="${theFormattedDate2Thereturnoftheexpected}" /></td>
 					<td align="center"><a href="edit.html?id=${personn.id}">Edit</a>
 						| <a href="delete.html?id=${personn.id}">Delete</a></td>

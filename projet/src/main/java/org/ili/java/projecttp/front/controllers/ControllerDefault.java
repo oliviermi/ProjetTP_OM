@@ -51,8 +51,7 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public ModelAndView savePerson(@ModelAttribute("command")
-  final PersonDTO personDTO) {
+  public ModelAndView savePerson(@ModelAttribute("command") final PersonDTO personDTO) {
 
     logger.debug("*****SAVE with personDTO = " + personDTO.toString());
 
@@ -64,7 +63,7 @@ public class ControllerDefault {
 
       final Map<String, Object> model = new HashMap<String, Object>();
 
-      System.out.println("*****OMImpossible de valider les donnees du bean : nb errerur : " + constraintViolations.size());
+     logger.debug("*****OMImpossible de valider les donnees du bean : nb errerur : " + constraintViolations.size());
 
       for (ConstraintViolation<PersonDTO> contraintes : constraintViolations) {
         logger.debug("*******" + contraintes.getRootBeanClass().getSimpleName() + "." + contraintes.getPropertyPath() + " " + contraintes.getMessage());
@@ -108,8 +107,7 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/add", method = RequestMethod.GET)
-  public ModelAndView addPerson(@ModelAttribute("command")
-  final PersonDTO personDTO) {
+  public ModelAndView addPerson(@ModelAttribute("command") final PersonDTO personDTO) {
 
     logger.debug("****ADD");
 

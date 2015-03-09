@@ -34,5 +34,4 @@ public class LoggableInjector implements BeanPostProcessor {
   public Object postProcessAfterInitialization(final Object bean, final String beanName) throws BeansException {
     return bean;
   }
-
 }
