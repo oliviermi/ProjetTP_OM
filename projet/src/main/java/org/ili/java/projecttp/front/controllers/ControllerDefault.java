@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -108,8 +109,7 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/add", method = RequestMethod.GET)
-  public ModelAndView addPerson(@ModelAttribute("command")
-  final PersonDTO personDTO) {
+  public ModelAndView addPerson(@ModelAttribute("command") final PersonDTO personDTO) {
 
     myLogger.debug("****ADD");
 
@@ -124,8 +124,7 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public ModelAndView editEmployee(@ModelAttribute("command")
-  final PersonDTO personDTO) {
+  public ModelAndView editEmployee(@ModelAttribute("command") final PersonDTO personDTO) {
 
     final Map<String, Object> model = new HashMap<String, Object>();
 
@@ -135,6 +134,22 @@ public class ControllerDefault {
     return new ModelAndView(ADDPERSON, model);
   }
 
+  /**
+   * @param personDTO
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/json/{id}", method = RequestMethod.GET, produces = "application/json")
+  public ModelAndView getJSONForId(@ModelAttribute("command") final PersonDTO personDTO) {
+
+    final Map<String, Object> model = new HashMap<String, Object>();
+
+    model.put(PERSON, preparePersonDTO(personService.fetchPerson(personDTO.getId())));
+    model.put(PERSONS, prepareListofBean(personService.fetchAllPersons()));
+
+    return new ModelAndView(ADDPERSON, model);
+  }
+  
   /**
    * @return
    */
@@ -149,8 +164,7 @@ public class ControllerDefault {
    * @return
    */
   @RequestMapping(value = "/delete", method = RequestMethod.GET)
-  public ModelAndView deletePerson(@ModelAttribute("command")
-  final PersonDTO personDTO) {
+  public ModelAndView deletePerson(@ModelAttribute("command") final PersonDTO personDTO) {
 
     final Map<String, Object> model = new HashMap<String, Object>();
 

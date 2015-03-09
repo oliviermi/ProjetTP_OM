@@ -1,5 +1,6 @@
 package org.ili.java.projecttp.utils.mapper;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public final class PersonMapper {
     personDo.setNom(personDTO.getNomPerson());
     personDo.setPrenom(personDTO.getPrenomPerson());
     personDo.setBirthDate(personDTO.getBirthDatePerson());
-    personDo.setListFriend(getPersonDtoListFromDoList(personDTO.getListFriend()));
+    personDo.setListFriend((Set<PersonDo>) getPersonDtoListFromDoList(personDTO.getListFriend()));
 
     return personDo;
   }
@@ -51,7 +52,7 @@ public final class PersonMapper {
     personDTO.setNomPerson(personDo.getNom());
     personDTO.setPrenomPerson(personDo.getPrenom());
     personDTO.setBirthDatePerson(personDo.getBirthDate());
-    personDTO.setListFriend(getPersonDoListFromDTOList(personDo.getListFriend()));
+    personDTO.setListFriend((Set<PersonDTO>) getPersonDoListFromDTOList(personDo.getListFriend()));
 
     return personDTO;
   }
@@ -60,9 +61,9 @@ public final class PersonMapper {
    * @param l
    * @return
    */
-  private static Set<PersonDo> getPersonDtoListFromDoList(final Set<PersonDTO> l) {
+  public static Collection<PersonDo> getPersonDtoListFromDoList(final Collection<PersonDTO> l) {
 
-    Set<PersonDo> returnList = null;
+   Collection<PersonDo> returnList = null;
 
     if (l == null) {
       return returnList;
@@ -81,9 +82,9 @@ public final class PersonMapper {
    * @param l
    * @return
    */
-  private static Set<PersonDTO> getPersonDoListFromDTOList(final Set<PersonDo> l) {
+  public static Collection<PersonDTO> getPersonDoListFromDTOList(final Collection<PersonDo> l) {
 
-    Set<PersonDTO> returnList = null;
+    Collection<PersonDTO> returnList = null;
 
     if (l == null) {
       return returnList;

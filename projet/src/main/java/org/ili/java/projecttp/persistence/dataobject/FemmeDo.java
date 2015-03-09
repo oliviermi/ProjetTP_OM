@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
  */
 public class FemmeDo extends PersonDo {
 
-  private static final long serialVersionUID = -6331753782922538604L;
-  
+  private static final long   serialVersionUID = -6331753782922538604L;
+
   @NotNull
   @Column(name = "sexeperson")
-  private final String      sexe             = "Feminin";
+  private static final String SEXE             = "Feminin";
 }

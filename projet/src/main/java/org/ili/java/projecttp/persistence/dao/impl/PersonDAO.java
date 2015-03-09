@@ -9,8 +9,6 @@ import javax.persistence.TypedQuery;
 
 import org.ili.java.projecttp.persistence.dao.IDAO;
 import org.ili.java.projecttp.persistence.dataobject.PersonDo;
-import org.ili.java.projecttp.utils.logger.Loggable;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,9 +20,6 @@ public class PersonDAO implements IDAO<PersonDo> {
 
   @PersistenceContext(unitName = "mypu")
   private EntityManager entityManager;
-
-  @Loggable
-  private static Logger myLogger;
 
   /* (non-Javadoc)
    * @see org.ili.java.projecttp.persistence.dao.IDAO#countAll()

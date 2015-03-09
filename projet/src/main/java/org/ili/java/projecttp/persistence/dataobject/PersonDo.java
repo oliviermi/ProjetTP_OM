@@ -58,7 +58,8 @@ public class PersonDo implements Serializable {
   private Date              birthDate;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
+  @JoinTable(name = "friends", joinColumns = @JoinColumn(name = "idperson1", referencedColumnName = "idperson"), 
+                               inverseJoinColumns = @JoinColumn(name = "idperson2", referencedColumnName = "idperson"))
   private Set<PersonDo>     listFriend;
 
   public PersonDo() {
